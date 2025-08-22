@@ -1,6 +1,7 @@
 // jest.config.js
 export default {
   testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'cjs'],
-  transform: {}
+  extensionsToTreatAsEsm: ['.js'],
+  transformIgnorePatterns: ['node_modules'],
+  // transform: { '^.+\\.js$': 'babel-jest' },
 };

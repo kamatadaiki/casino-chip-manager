@@ -13,7 +13,8 @@
     "proxy": "http://localhost:5000",
     "migrate:up": "node-pg-migrate up",
     "migrate:down": "node-pg-migrate down",
-    "migrate:make": "node-pg-migrate create"
+    "migrate:make": "node-pg-migrate create",
+    "test": "cross-env NODE_ENV=test jest --runInBand"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
@@ -25,7 +26,10 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^9.2.0",
-    "node-pg-migrate": "^8.0.3"
+    "node-pg-migrate": "^8.0.3",
+    "jest": "^29.x",
+    "supertest": "^6.x",
+    "cross-env": "^7.x"
   },
 
   "type": "module",
