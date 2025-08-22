@@ -1,16 +1,17 @@
 {
   "name": "casino-chip-manager",
   "version": "0.1.0",
+  "private": true,
   "homepage": "https://kamatadaiki.github.io/casino-chip-manager",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "client": "react-scripts start",
+    "server": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "concurrently": "^7.0.0"
   },
+
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
