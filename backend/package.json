@@ -1,18 +1,15 @@
 {
-  "name": "backend",
+  "name": "casino-chip-manager-backend",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "check-env": "node scripts/checkEnv.js",
+    "create-table": "node scripts/createTable.js",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "pg": "^8.16.3",
-    "cors": "^2.8.5"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.22"
+    "pg": "^8.x",
+    "express": "^4.x"
   }
 }
