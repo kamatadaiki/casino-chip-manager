@@ -1,37 +1,15 @@
-// index.js
+const { Pool } = require('pg');
 
-// 環境変数のロード
-require('dotenv').config();
-
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-
-const chipRouter = require('./routes/chip');
-
-const app = express();
-
-// ミドルウェア設定
-app.use(express.json());
-app.use(cors());
-app.use(morgan('dev'));
-
-// ルーティング
-app.use('/api/chips', chipRouter);
-
-// 存在しないルートへの 404 ハンドリング
-app.use((req, res) => {
-  res.status(404).json({ status: 'error', message: 'Not Found' });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production'
+    ? { rejectUnauthorized: false }
+    : false
 });
 
-// 全体エラーハンドラー
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({ status: 'error', message: err.message });
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
 });
 
-// サーバ起動
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+module.exports = pool;
