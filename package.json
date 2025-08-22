@@ -7,8 +7,11 @@
   ],
   "scripts": {
     "start": "npm run start --workspace=backend",
-    "dev":   "npm run dev --workspace=backend",
-    "seed":  "npm run seed --workspace=backend",
-    "test":  "npm run test --workspace=backend"
+    "dev": "npm run dev --workspace=backend",
+    "seed": "npm run seed --workspace=backend",
+    "test": "npm run test --workspace=backend"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "^8.0.3"
   }
 }

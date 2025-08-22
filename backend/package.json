@@ -7,7 +7,10 @@
     "start": "node src/server.js",
     "dev":   "nodemon --watch src --exec \"node src/server.js\"",
     "seed":  "node src/seeders/index.js",
-    "test":  "jest --runInBand --detectOpenHandles --verbose"
+    "test":  "jest --runInBand --detectOpenHandles --verbose",
+    "migrate:up":   "node-pg-migrate up --dir ./migrations",
+    "migrate:down": "node-pg-migrate down --dir ./migrations",
+    "migrate:reset": "npm run migrate:down && npm run migrate:up"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -23,6 +26,7 @@
   "devDependencies": {
     "jest":     "^28.1.0",
     "nodemon":  "^2.0.15",
-    "supertest": "^6.2.4"
+    "supertest": "^6.2.4",
+    "node-pg-migrate": "^7.5.0"
   }
 }
