@@ -15,5 +15,11 @@ exports.up = (pgm) => {
 
 // down 関数をエクスポート
 exports.down = (pgm) => {
+  // 先に外部キー制約を削除
+  pgm.dropConstraint('transactions', 'transactions_chip_id_fkey', {
+    ifExists: true
+  });
+
+  // テーブルを削除
   pgm.dropTable('chips');
 };
