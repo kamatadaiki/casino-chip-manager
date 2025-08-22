@@ -1,50 +1,32 @@
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-
 jobs:
   test:
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: pass
-          POSTGRES_DB: chips
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U user"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        # （省略）
 
     steps:
       - name: ソースをチェックアウト
         uses: actions/checkout@v3
 
-      - name: Node.js をセットアップ
+      - name: Node.jsをセットアップ
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: 依存関係をインストール
         run: npm ci
+        working-directory: backend
 
-      - name: Postgres が起動するまで待機
+      - name: Postgres 起動待ち
         run: |
-          until pg_isready -h localhost -p 5432 -U user; do
-            echo "Waiting for Postgres..."
-            sleep 1
-          done
+          until pg_isready -h localhost -p 5432 -U user; do sleep 1; done
 
       - name: マイグレーション実行
         run: npm run migrate:up
+        working-directory: backend
 
       - name: テスト実行
         run: npm test
+        working-directory: backend
