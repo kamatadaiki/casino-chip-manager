@@ -6,6 +6,10 @@ const chipCtrl       = require('../controllers/chipController')
 
 const router = express.Router()
 
+router.get('/', (req, res) => {
+  res.json({ chips: [] });  // 仮レスポンス
+});
+
 // すべての /chips エンドポイントで認証を実施
 router.use(authenticate)
 
