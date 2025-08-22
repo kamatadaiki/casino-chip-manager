@@ -10,12 +10,13 @@
     "create-db": "node scripts/createDatabase.js",
     "create-table": "node scripts/createTable.js",
     "drop-table": "node scripts/dropTable.js",
-    "seed": "node scripts/seedData.js",
+    "seed": "ts-node src/seed.ts",
     "dev": "dotenv -e .env node src/app.js",
     "proxy": "http://localhost:5000",
-    "migrate:up": "node-pg-migrate up",
+    "migrate:up":  "node-pg-migrate up --database-url $DATABASE_URL",
     "migrate:down": "node-pg-migrate down",
-    "migrate:make": "node-pg-migrate create"
+    "migrate:make": "node-pg-migrate create",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
