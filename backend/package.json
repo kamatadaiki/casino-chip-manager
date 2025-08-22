@@ -2,15 +2,19 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend service for managing casino chips",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon --watch src --exec \"node src/server.js\"",
-    "seed": "node src/seeders/index.js",
-    "test": "jest --runInBand --detectOpenHandles --verbose",
-    "migrate:up": "node-pg-migrate up --dir ./migrations",
-    "migrate:down": "node-pg-migrate down --dir ./migrations",
-    "migrate:reset": "npm run migrate:down && npm run migrate:up"
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch dist src/server.ts",
+    "seed": "ts-node --project tsconfig.json src/seeders/index.ts",
+    "test": "jest --config jest.config.ts --runInBand --detectOpenHandles --verbose",
+    "migrate:up": "node-pg-migrate up --dir ./migrations --databaseUrl $DATABASE_URL",
+    "migrate:down": "node-pg-migrate down --dir ./migrations --databaseUrl $DATABASE_URL",
+    "migrate:reset": "npm run migrate:down && npm run migrate:up",
+    "lint": "eslint --ext .ts,.js src",
+    "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
+    "clean": "rimraf dist"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -25,12 +29,19 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jest": "^28.1.1",
     "@types/node": "^24.3.0",
     "@types/pg": "^8.15.5",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^8.0.0",
+    "eslint-plugin-import": "^2.0.0",
     "jest": "^28.1.0",
     "node-pg-migrate": "^7.5.0",
     "nodemon": "^2.0.15",
+    "prettier": "^2.7.0",
+    "rimraf": "^3.0.2",
     "supertest": "^6.2.4",
+    "ts-jest": "^28.0.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
