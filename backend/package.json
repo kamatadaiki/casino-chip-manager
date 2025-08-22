@@ -1,15 +1,20 @@
 {
   "name": "casino-chip-manager-backend",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "description": "Backend for Casino Chip Manager (Node.js + PostgreSQL)",
+  "main": "index.js",
   "scripts": {
     "check-env": "node scripts/checkEnv.js",
-    "create-table": "node scripts/createTable.js",
-    "start": "node src/index.js"
+    "create-db":   "node scripts/createDatabase.js",
+    "create-table":"node scripts/createTable.js",
+    "drop-table":  "node scripts/dropTable.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
-    "pg": "^8.x",
-    "express": "^4.x"
-  }
+    "pg":      "^8.10.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "license": "MIT"
 }
