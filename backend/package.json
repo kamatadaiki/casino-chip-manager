@@ -4,10 +4,11 @@
   "description": "Backend for Casino Chip Manager (Node.js + PostgreSQL)",
   "main": "index.js",
   "scripts": {
-    "check-env": "node scripts/checkEnv.js",
+    "check-env":   "node scripts/checkEnv.js",
     "create-db":   "node scripts/createDatabase.js",
     "create-table":"node scripts/createTable.js",
-    "drop-table":  "node scripts/dropTable.js"
+    "drop-table":  "node scripts/dropTable.js",
+    "seed":        "node scripts/seedData.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
