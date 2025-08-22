@@ -1,22 +1,26 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const chipRouter = require('./routes/chip');
+// src/server.js
+import express from 'express';
+import dotenv from 'dotenv';
+import chipsRouter from './routes/chips.js';
 
 dotenv.config();
 
 const app = express();
-
-app.use(cors());
 app.use(express.json());
-app.use('/api/chips', chipRouter);
+app.use('/api/chips', chipsRouter);
 
-// ヘルスチェック用エンドポイント
-app.get('/healthcheck', (req, res) => {
-  res.json({ status: 'ok', timestamp: Date.now() });
+// エラーハンドラ
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: err.message });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// テスト用＆本番用のエントリポイント
+if (process.env.NODE_ENV !== 'test') {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+}
+
+export default app;
