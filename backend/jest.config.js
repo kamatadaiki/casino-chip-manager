@@ -1,6 +1,7 @@
 // jest.config.js
 export default {
   testEnvironment: 'node',
-  // extensionsToTreatAsEsm: ['.js'],
-  // transform: { '^.+\\.js$': 'babel-jest' },
+  transform: {
+    '^.+\\.js$': 'babel-jest'
+  }
 };

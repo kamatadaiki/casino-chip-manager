@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for Casino Chip Manager (Node.js + PostgreSQL)",
   "main": "index.js",
- "type": "module",
+  "type": "module",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --runInBand",
     "check-env": "node scripts/checkEnv.js",
@@ -26,11 +26,14 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "babel-jest": "^30.0.5",
     "concurrently": "^9.2.0",
-    "node-pg-migrate": "^8.0.3",
+    "cross-env": "^7.x",
     "jest": "^29.x",
-    "supertest": "^6.x",
-    "cross-env": "^7.x"
+    "node-pg-migrate": "^8.0.3",
+    "supertest": "^6.x"
   },
   "pgmigrate": {
     "migrations-dir": "migrations",
