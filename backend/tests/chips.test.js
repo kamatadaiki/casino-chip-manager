@@ -1,6 +1,6 @@
 // tests/chips.test.js
-import request from 'supertest';
-import app from '../src/server.js';
+const request = require('supertest');
+const app = require('../src/app.js');
 import { pool } from '../src/db.js';
 
 // テスト用 DB をクリーンアップ
