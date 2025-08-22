@@ -6,7 +6,10 @@
   "scripts": {
     "client": "react-scripts start",
     "server": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "migrate:make": "node-pg-migrate create"
   },
   "devDependencies": {
     "concurrently": "^7.0.0"
