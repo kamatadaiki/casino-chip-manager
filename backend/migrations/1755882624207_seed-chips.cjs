@@ -1,18 +1,9 @@
-/**
- * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
- */
-export const shorthands = undefined;
-
-/**
- * @param pgm {import('node-pg-migrate').MigrationBuilder}
- * @param run {() => void | undefined}
- * @returns {Promise<void> | void}
- */
-export const up = (pgm) => {};
 // migrations/1755882624207_seed-chips.cjs
 
+// shorthands をエクスポート
 exports.shorthands = undefined;
 
+// up 関数をエクスポート
 exports.up = (pgm) => {
   pgm.sql(`
     INSERT INTO chips (name, color) VALUES
@@ -22,6 +13,7 @@ exports.up = (pgm) => {
   `);
 };
 
+// down 関数をエクスポート
 exports.down = (pgm) => {
   pgm.sql('DELETE FROM chips;');
 };
