@@ -1,0 +1,8 @@
+# ビルド成果物を無視
+/build/
+
+# node_modulesを無視
+/node_modules/
+
+# 環境変数ファイルを無視
+.env
