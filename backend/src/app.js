@@ -1,4 +1,5 @@
 // backend/src/app.js
+
 require('dotenv').config();
 const express        = require('express');
 const morgan         = require('morgan');
@@ -8,6 +9,10 @@ const userRoutes     = require('./routes/users');
 const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // JSON ボディのパース
 app.use(express.json());
