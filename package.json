@@ -1,53 +1,28 @@
 {
   "name": "casino-chip-manager",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://kamatadaiki.github.io/casino-chip-manager",
+  "version": "1.0.0",
+  "description": "Backend service for managing casino chips",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "migrate:up": "node-pg-migrate up --database-url $DATABASE_URL",
-    "seed":       "ts-node src/seed.ts",
-    "test":       "jest --runInBand",
-    "client": "react-scripts start",
-    "server": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "node src/server.js",
+    "dev": "nodemon --watch src --exec \"node src/server.js\"",
+    "seed": "node src/seeders/index.js",
+    "test": "jest --runInBand --detectOpenHandles --verbose"
   },
-  "devDependencies": {
-    "concurrently": "^7.0.0",
-    "cross-env": "^10.0.0",
-    "jest": "^27.5.1",
-    "supertest": "^7.1.4"
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "pg": "^8.16.3",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-scripts": "^5.0.1"
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "description": "",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kamatadaiki/casino-chip-manager.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kamatadaiki/casino-chip-manager/issues"
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.4"
   }
 }

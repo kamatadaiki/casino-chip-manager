@@ -1,26 +1,31 @@
-// src/server.js
-import express from 'express';
-import dotenv from 'dotenv';
-import chipsRouter from './routes/chips.js';
+// backend/src/server.js
+require('dotenv').config();
+const app  = require('./app');
+const pool = require('./db');
 
-dotenv.config();
+const PORT = parseInt(process.env.PORT, 10) || 3000;
 
-const app = express();
-app.use(express.json());
-app.use('/api/chips', chipsRouter);
-
-// エラーハンドラ
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: err.message });
+// サーバ起動
+const server = app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
 
-// テスト用＆本番用のエントリポイント
-if (process.env.NODE_ENV !== 'test') {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-  });
-}
+// グレースフルシャットダウン
+const shutdown = () => {
+  console.log('Shutting down server...');
+  
+  // HTTP サーバをクローズ
+  server.close(() => {
+    console.log('HTTP server closed.');
 
-export default app;
+    // DB プールを終了
+    pool.end(() => {
+      console.log('Database pool has ended.');
+      process.exit(0);
+    });
+  });
+};
+
+// SIGINT (Ctrl+C) / SIGTERM に対応
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
