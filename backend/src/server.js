@@ -1,9 +1,12 @@
 // backend/src/server.js
+// backend/src/server.js
 require('dotenv').config();
-const app  = require('./app');
-const pool = require('./db');
+const app = require('./app');
+const PORT = process.env.PORT || 3000;
 
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 // サーバ起動
 const server = app.listen(PORT, () => {
