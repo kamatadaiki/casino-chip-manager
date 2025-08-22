@@ -9,10 +9,16 @@ const userRoutes     = require('./routes/users');
 const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
+// 既存のミドルウェアより前にリクエストログ
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
+app.get('/', (req, res) => {
+  res.send('Casino Chip Manager is up and running!');
+});
+
+
 
 // JSON ボディのパース
 app.use(express.json());
