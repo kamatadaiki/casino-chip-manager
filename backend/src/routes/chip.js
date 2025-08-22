@@ -1,80 +1,72 @@
+// backend/routes/chips.js
 const express = require('express');
-const pool = require('../db');
+const db = require('../db');
 const router = express.Router();
 
-// 全チップ一覧を取得
-router.get('/', async (req, res) => {
+// 1. 全件取得
+router.get('/', async (req, res, next) => {
   try {
-    const result = await pool.query('SELECT * FROM chips ORDER BY id');
-    res.json(result.rows);
+    const { rows } = await db.query('SELECT * FROM chips ORDER BY id');
+    res.json(rows);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// 単一チップを取得
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+// 2. ID指定取得
+router.get('/:id', async (req, res, next) => {
   try {
-    const result = await pool.query(
+    const { rows } = await db.query(
       'SELECT * FROM chips WHERE id = $1',
-      [id]
+      [req.params.id]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Chip not found' });
-    }
-    res.json(result.rows[0]);
+    if (!rows.length) return res.status(404).json({ error: 'Chip not found' });
+    res.json(rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// 新しいチップを登録
-router.post('/', async (req, res) => {
-  const { user_id, amount } = req.body;
+// 3. 新規作成
+router.post('/', async (req, res, next) => {
   try {
-    const result = await pool.query(
-      'INSERT INTO chips(user_id, amount) VALUES($1, $2) RETURNING *',
-      [user_id, amount]
+    const { color, value } = req.body;
+    const { rows } = await db.query(
+      'INSERT INTO chips(color, value) VALUES($1, $2) RETURNING *',
+      [color, value]
     );
-    res.status(201).json(result.rows[0]);
+    res.status(201).json(rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// チップの数量を更新
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { amount } = req.body;
+// 4. 更新
+router.put('/:id', async (req, res, next) => {
   try {
-    const result = await pool.query(
-      'UPDATE chips SET amount = $1 WHERE id = $2 RETURNING *',
-      [amount, id]
+    const { color, value } = req.body;
+    const { rows } = await db.query(
+      'UPDATE chips SET color = $1, value = $2 WHERE id = $3 RETURNING *',
+      [color, value, req.params.id]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Chip not found' });
-    }
-    res.json(result.rows[0]);
+    if (!rows.length) return res.status(404).json({ error: 'Chip not found' });
+    res.json(rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// チップを削除
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+// 5. 削除
+router.delete('/:id', async (req, res, next) => {
   try {
-    const result = await pool.query(
-      'DELETE FROM chips WHERE id = $1 RETURNING *',
-      [id]
+    const { rowCount } = await db.query(
+      'DELETE FROM chips WHERE id = $1',
+      [req.params.id]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Chip not found' });
-    }
-    res.json({ message: 'Chip deleted', chip: result.rows[0] });
+    if (!rowCount) return res.status(404).json({ error: 'Chip not found' });
+    res.status(204).send();
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
