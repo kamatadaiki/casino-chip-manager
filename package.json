@@ -1,28 +1,14 @@
 {
   "name": "casino-chip-manager",
   "version": "1.0.0",
-  "description": "Backend service for managing casino chips",
-  "main": "src/server.js",
+  "private": true,
+  "workspaces": [
+    "backend"
+  ],
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon --watch src --exec \"node src/server.js\"",
-    "seed": "node src/seeders/index.js",
-    "test": "jest --runInBand --detectOpenHandles --verbose"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.18.1",
-    "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.10.0",
-    "pg": "^8.7.1"
-  },
-  "devDependencies": {
-    "jest": "^28.1.0",
-    "nodemon": "^2.0.15",
-    "supertest": "^6.2.4"
+    "start": "npm run start --workspace=backend",
+    "dev":   "npm run dev --workspace=backend",
+    "seed":  "npm run seed --workspace=backend",
+    "test":  "npm run test --workspace=backend"
   }
 }

@@ -1,46 +1,28 @@
 {
-  "name": "casino-chip-manager-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Backend for Casino Chip Manager (Node.js + PostgreSQL)",
-  "main": "index.js",
-  "type": "module",
+  "description": "Backend service for managing casino chips",
+  "main": "src/server.js",
   "scripts": {
-    "test":       "jest --runInBand",
-    "check-env": "node scripts/checkEnv.js",
-    "create-db": "node scripts/createDatabase.js",
-    "create-table": "node scripts/createTable.js",
-    "drop-table": "node scripts/dropTable.js",
-    "seed": "ts-node src/seed.ts",
-    "dev": "dotenv -e .env node src/app.js",
-    "proxy": "http://localhost:5000",
-    "migrate:up":  "node-pg-migrate up --database-url $DATABASE_URL",
-    "migrate:down": "node-pg-migrate down",
-    "migrate:make": "node-pg-migrate create",
-    "start": "node src/index.js"
-  },
-  "dependencies": {
-    "dotenv": "^17.2.1",
-    "pg": "^8.10.0"
+    "start": "node src/server.js",
+    "dev":   "nodemon --watch src --exec \"node src/server.js\"",
+    "seed":  "node src/seeders/index.js",
+    "test":  "jest --runInBand --detectOpenHandles --verbose"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
-  "license": "MIT",
+  "dependencies": {
+    "bcrypt":       "^5.0.1",
+    "dotenv":       "^10.0.0",
+    "express":      "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan":       "^1.10.0",
+    "pg":           "^8.7.1"
+  },
   "devDependencies": {
-    "@babel/core": "^7.28.3",
-    "@babel/preset-env": "^7.28.3",
-    "babel-jest": "^30.0.5",
-    "concurrently": "^9.2.0",
-    "cross-env": "^7.x",
-    "jest": "^29.x",
-    "node-pg-migrate": "^8.0.3",
-    "supertest": "^6.x"
-  },
-  "pgmigrate": {
-    "migrations-dir": "migrations",
-    "direction": "up",
-    "extension": "cjs",
-    "database-url": "${DATABASE_URL}",
-    "dir": "migrations"
+    "jest":     "^28.1.0",
+    "nodemon":  "^2.0.15",
+    "supertest": "^6.2.4"
   }
 }
