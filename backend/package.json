@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Backend for Casino Chip Manager (Node.js + PostgreSQL)",
   "main": "index.js",
+ "type": "module",
   "scripts": {
+    "test": "cross-env NODE_ENV=test jest --runInBand",
     "check-env": "node scripts/checkEnv.js",
     "create-db": "node scripts/createDatabase.js",
     "create-table": "node scripts/createTable.js",
@@ -13,8 +15,7 @@
     "proxy": "http://localhost:5000",
     "migrate:up": "node-pg-migrate up",
     "migrate:down": "node-pg-migrate down",
-    "migrate:make": "node-pg-migrate create",
-    "test": "cross-env NODE_ENV=test jest --runInBand"
+    "migrate:make": "node-pg-migrate create"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
@@ -31,8 +32,6 @@
     "supertest": "^6.x",
     "cross-env": "^7.x"
   },
-
-  "type": "module",
   "pgmigrate": {
     "migrations-dir": "migrations",
     "direction": "up",
