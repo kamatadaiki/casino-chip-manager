@@ -1,0 +1,40 @@
+// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    // ① Chrome デバッグ（レガシー拡張用）
+    {
+      "name": "Launch Chrome SPA (legacy)",
+      "type": "chrome",                                  // ← ここを pwa-chrome から chrome に変更
+      "request": "launch",
+      "runtimeExecutable": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true
+    },
+
+    // ② Node.js バックエンドにアタッチ
+    {
+      "name": "Attach to Node API",
+      "type": "node",                                    // ← ここを pwa-node から node に変更
+      "request": "attach",
+      "address": "localhost",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "protocol": "inspector",
+      "restart": true
+    }
+  ],
+
+  // ③ フロント＋バック同時起動
+  "compounds": [
+    {
+      "name": "Fullstack Debug (legacy)",
+      "configurations": [
+        "Launch Chrome SPA (legacy)",
+        "Attach to Node API"
+      ]
+    }
+  ]
+}
