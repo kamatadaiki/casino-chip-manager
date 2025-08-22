@@ -10,23 +10,22 @@ export const shorthands = undefined;
  */
 export const up = (pgm) => {};
 
-// migrations/1755882353095_create-chips-table.js
+// migrations/1755882353095_create-chips-table.cjs
 
-// migrations/1755882353095_create-chips-table.js
+// shorthands をエクスポート
+exports.shorthands = undefined;
 
-export function up(pgm) {
+// up 関数をエクスポート
+exports.up = (pgm) => {
   pgm.createTable('chips', {
-    id: { type: 'serial', primaryKey: true },
+    id: 'id',
     name: { type: 'text', notNull: true },
-    value: { type: 'integer', notNull: true },
-    created_at: {
-      type: 'timestamp',
-      notNull: true,
-      default: pgm.func('current_timestamp')
-    }
+    color: { type: 'text', notNull: true },
+    // …必要なカラム定義
   });
-}
+};
 
-export function down(pgm) {
+// down 関数をエクスポート
+exports.down = (pgm) => {
   pgm.dropTable('chips');
-}
+};
