@@ -12,15 +12,21 @@ export const up = (pgm) => {};
 
 // migrations/1755882353095_create-chips-table.js
 
-exports.up = (pgm) => {
+// migrations/1755882353095_create-chips-table.js
+
+export function up(pgm) {
   pgm.createTable('chips', {
     id: { type: 'serial', primaryKey: true },
     name: { type: 'text', notNull: true },
     value: { type: 'integer', notNull: true },
-    created_at: { type: 'timestamp', notNull: true, default: pgm.func('current_timestamp') }
+    created_at: {
+      type: 'timestamp',
+      notNull: true,
+      default: pgm.func('current_timestamp')
+    }
   });
-};
+}
 
-exports.down = (pgm) => {
+export function down(pgm) {
   pgm.dropTable('chips');
-};
+}

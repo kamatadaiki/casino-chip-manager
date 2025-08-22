@@ -27,10 +27,12 @@
     "concurrently": "^9.2.0",
     "node-pg-migrate": "^8.0.3"
   },
-  
-    "pgmigrate": {
+
+  "type": "module",
+  "pgmigrate": {
     "migrations-dir": "migrations",
     "direction": "up",
+    "extension": "cjs",
     "database-url": "${DATABASE_URL}",
     "dir": "migrations"
   }
