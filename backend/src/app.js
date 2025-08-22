@@ -1,42 +1,28 @@
 // backend/src/app.js
+const express   = require('express');
+const app       = express();
 
-require('dotenv').config();
-const express        = require('express');
-const morgan         = require('morgan');
-const authRoutes     = require('./routes/auth');
-const chipRoutes     = require('./routes/chips');
-const userRoutes     = require('./routes/users');
-const { errorHandler } = require('./middleware/errorHandler');
+app.use(express.json());
 
-const app = express();
-// 既存のミドルウェアより前にリクエストログ
+// リクエストログ（デバッグ用）
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
-app.get('/', (req, res) => {
-  res.send('Casino Chip Manager is up and running!');
-});
 
+// API ルーター
+app.use('/api/chips', require('./routes/chips'));
+app.use('/api/users', require('./routes/users'));
 
-
-// JSON ボディのパース
-app.use(express.json());
-
-// リクエストログ
-app.use(morgan('dev'));
-
-// ルートマウント
-app.use('/auth', authRoutes);
-app.use('/chips', chipRoutes);
-app.use('/users', userRoutes);
-
-// 404 ハンドリング
-app.use((req, res, next) => {
+// 404 ハンドラー
+app.use((req, res) => {
   res.status(404).json({ message: 'Not Found' });
 });
 
-// エラーハンドラ
-app.use(errorHandler);
+// グローバルエラーハンドラー
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: 'Internal Server Error' });
+});
 
 module.exports = app;

@@ -1,57 +1,68 @@
-// backend/src/controllers/chipController.js
-const pool = require('../db');
+// backend/src/controllers/chipsController.js
+const pool = require('../config/db');
 
-exports.getAllChips = async (req, res, next) => {
+async function getAllChips(req, res, next) {
   try {
-    const { rows } = await pool.query('SELECT * FROM chips ORDER BY id');
-    res.json(rows);
+    const { rows } = await pool.query('SELECT * FROM chips');
+    res.json({ chips: rows });
   } catch (err) {
     next(err);
   }
-};
+}
 
-exports.createChip = async (req, res, next) => {
+async function getChipById(req, res, next) {
   try {
-    const { name, color } = req.body;
+    const { id } = req.params;
+    const { rows } = await pool.query('SELECT * FROM chips WHERE id=$1', [id]);
+    if (rows.length === 0) return res.status(404).json({ message: 'Chip not found' });
+    res.json(rows[0]);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function createChip(req, res, next) {
+  try {
+    const { name, value } = req.body;
     const { rows } = await pool.query(
-      'INSERT INTO chips (name, color) VALUES ($1, $2) RETURNING *',
-      [name, color]
+      'INSERT INTO chips(name, value) VALUES($1, $2) RETURNING *',
+      [name, value]
     );
     res.status(201).json(rows[0]);
   } catch (err) {
     next(err);
   }
-};
+}
 
-exports.updateChip = async (req, res, next) => {
+async function updateChip(req, res, next) {
   try {
-    const id = parseInt(req.params.id, 10);
-    const { name, color } = req.body;
+    const { id } = req.params;
+    const { name, value } = req.body;
     const { rows } = await pool.query(
-      'UPDATE chips SET name = $1, color = $2 WHERE id = $3 RETURNING *',
-      [name, color, id]
+      'UPDATE chips SET name=$1, value=$2 WHERE id=$3 RETURNING *',
+      [name, value, id]
     );
-    if (!rows[0]) {
-      return res.sendStatus(404);
-    }
+    if (rows.length === 0) return res.status(404).json({ message: 'Chip not found' });
     res.json(rows[0]);
   } catch (err) {
     next(err);
   }
-};
+}
 
-exports.deleteChip = async (req, res, next) => {
+async function deleteChip(req, res, next) {
   try {
-    const id = parseInt(req.params.id, 10);
-    const { rowCount } = await pool.query(
-      'DELETE FROM chips WHERE id = $1',
-      [id]
-    );
-    if (rowCount === 0) {
-      return res.sendStatus(404);
-    }
-    res.sendStatus(204);
+    const { id } = req.params;
+    await pool.query('DELETE FROM chips WHERE id=$1', [id]);
+    res.status(204).end();
   } catch (err) {
     next(err);
   }
+}
+
+module.exports = {
+  getAllChips,
+  getChipById,
+  createChip,
+  updateChip,
+  deleteChip
 };
